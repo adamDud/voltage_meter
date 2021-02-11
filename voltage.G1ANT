@@ -46,11 +46,11 @@ while ♥continue==true
 end while 
 
 -zamkniecie okien
-ui.click wpath ‴/ui[@class='#32770']/ui[@id='TitleBar']/ui[@id='Close']‴ errorcall nara
+ui.click wpath ‴/ui[@class='#32770']/ui[@id='TitleBar']/ui[@id='Close']‴ errorcall shutdown
 
-ui.click wpath ‴/ui[@class='Notepad']/ui[@id='TitleBar']/ui[@id='Close']‴ errorcall nara
+ui.click wpath ‴/ui[@class='Notepad']/ui[@id='TitleBar']/ui[@id='Close']‴ errorcall shutdown
 
-ui.click wpath ‴/ui[@class='Notepad']/ui[@class='#32770']/ui[@id='CommandButton_7']‴ errorcall nara
+ui.click wpath ‴/ui[@class='Notepad']/ui[@class='#32770']/ui[@id='CommandButton_7']‴ errorcall shutdown
 
-procedure nara
+procedure shutdown
 end procedure 
