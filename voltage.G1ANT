@@ -1,0 +1,56 @@
+program ‴C:\Program Files\CPUID\CPU-Z\cpuz.exe‴
+program notepad
+
+♥base_font_size = 20
+♥base_voltage = 0.800
+♥continue = true
+♥iteration = 1
+
+while ♥continue==true
+    label tryagain
+    -odczytanie voltow
+    waitfor.ui wpath ‴/ui[@class='#32770']/ui[@id='1000']/ui[@id='1207']‴
+    ui.gettext wpath ‴/ui[@name='CPU-Z ']/ui[@id='1000']/ui[@id='1122']‴ timeout 100000 result ♥raw_voltage errorjump tryagain
+    text.find text ♥raw_voltage regex ‴(?<v>\d.\d{1,})‴ 
+    ♥convert = ⊂♥v⟦1⟧.Replace(".",",")⊃
+    
+    -obliczenie nowego rozmiaru czcionki
+    ♥float_voltage = ⊂Convert.ToDouble(♥convert)⊃
+
+    ♥difference = ♥float_voltage/♥base_voltage
+
+    ♥new_font_size = ♥base_font_size*♥difference
+    
+    ♥new_font_size_int = ⊂Math.Round(♥new_font_size)⊃
+    
+    -zmiana rozmiaru czcionki
+    window title ‴✱Notatnik‴
+    ui.click wpath ‴/ui[@class='Notepad']/ui[@id='MenuBar']/ui[@name='Format']‴
+    
+    ui.click wpath ‴/ui[@class='Notepad' and @type='Window']/ui[@class='#32768' and @name='Format' and @type='Menu']/ui[@id='33' and @name='Czcionka...' and @type='MenuItem']‴
+    ui.settext wpath ‴/ui[@class='Notepad']/ui[@class='#32770']/ui[@id='1138']/ui[@id='1001']‴ text ♥new_font_size_int
+    ui.click wpath ‴/ui[@class='Notepad']/ui[@class='#32770']/ui[@id='1']‴
+
+    -wypisanie voltow
+    ui.settext wpath ‴/ui[@class='Notepad']‴ text ‴♥float_voltage V‴
+    
+    -zapytanie czy konczyc (co 10 iteracji)
+    ♥iteration = ♥iteration+1
+    if ⊂♥iteration%10==0⊃
+        dialog.ask message ‴zakończyć? t/n‴ result ♥answer 
+        if ⊂♥answer==‴t‴⊃
+            label shutdown
+            ♥continue=false
+        end if
+    end if
+end while 
+
+-zamkniecie okien
+ui.click wpath ‴/ui[@class='#32770']/ui[@id='TitleBar']/ui[@id='Close']‴ errorcall nara
+
+ui.click wpath ‴/ui[@class='Notepad']/ui[@id='TitleBar']/ui[@id='Close']‴ errorcall nara
+
+ui.click wpath ‴/ui[@class='Notepad']/ui[@class='#32770']/ui[@id='CommandButton_7']‴ errorcall nara
+
+procedure nara
+end procedure 
